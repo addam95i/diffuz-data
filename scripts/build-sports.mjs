@@ -14,6 +14,8 @@ const countryMap = JSON.parse(await readFile(new URL('data/countries.json', root
 // Sports suivis : nom chez TheSportsDB → identifiant dans l'appli.
 // « Fighting » regroupe chez TheSportsDB le MMA (UFC, PFL…) et la boxe.
 const SPORTS = { Basketball: 'basketball', Fighting: 'fighting' };
+// Dans « Fighting », TheSportsDB range aussi le sumo et le catch : on ne garde que MMA et boxe.
+const NOT_FIGHTING = /sumo|wwe|aew|wrestl|njpw|tna|impact|ring of honor/i;
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const slug = (s) => String(s || '').trim().toLowerCase().normalize('NFD').replace(/\p{M}/gu, '')
@@ -114,6 +116,8 @@ for (const [name, sport] of Object.entries(SPORTS)) {
     if (!utc) continue;
 
     const idLeague = String((e && e.idLeague) || (row && row.idLeague) || '');
+    const leagueName = clean((e && e.strLeague) || (row && row.strLeague));
+    if (sport === 'fighting' && NOT_FIGHTING.test(leagueName)) continue;
     const comp = idLeague ? `${sport === 'basketball' ? 'B' : 'F'}${idLeague}` : `${sport}-other`;
     if (!competitions[comp]) {
       const land = e ? e.strCountry : '';
