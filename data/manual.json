@@ -1,0 +1,371 @@
+{
+ "_note": "Ajouts manuels lus par scripts/build-dev.mjs. leagueChannels : chaînes ajoutées aux matchs d'une compétition TheSportsDB (id de ligue) quand le pays n'a rien. matchChannels : chaînes imposées pour un match (clé equipe-domicile|equipe-exterieur). matches : matchs absents de TheSportsDB, gardés de J-2 à J+7.",
+ "leagueChannels": {
+  "4490": {
+   "FR": [
+    "L'Équipe Live Foot"
+   ]
+  }
+ },
+ "matchChannels": {
+  "turkey|belgium": {
+   "FR": [
+    "L'Équipe"
+   ]
+  },
+  "england|croatia": {
+   "FR": [
+    "L'Équipe"
+   ]
+  },
+  "czech-republic|spain": {
+   "FR": [
+    "L'Équipe"
+   ]
+  },
+  "netherlands|greece": {
+   "FR": [
+    "L'Équipe"
+   ]
+  },
+  "serbia|germany": {
+   "FR": [
+    "L'Équipe"
+   ]
+  },
+  "norway|wales": {
+   "FR": [
+    "L'Équipe"
+   ]
+  },
+  "portugal|denmark": {
+   "FR": [
+    "L'Équipe"
+   ]
+  },
+  "belgium|italy": {
+   "FR": [
+    "L'Équipe"
+   ]
+  },
+  "spain|england": {
+   "FR": [
+    "L'Équipe"
+   ]
+  },
+  "germany|netherlands": {
+   "FR": [
+    "L'Équipe"
+   ]
+  },
+  "wales|portugal": {
+   "FR": [
+    "L'Équipe"
+   ]
+  }
+ },
+ "competitions": {
+  "CAN27Q": {
+   "name": "CAN 2027 – Qualifications",
+   "area": "Afrique",
+   "areaEn": "Africa",
+   "flag": ""
+  }
+ },
+ "matches": [
+  {
+   "id": 990001,
+   "utc": "2026-11-12T16:00:00Z",
+   "comp": "CAN27Q",
+   "home": "DR Congo",
+   "away": "Sierra Leone",
+   "channels": {
+    "FR": [
+     "beIN Sports 1"
+    ]
+   }
+  },
+  {
+   "id": 990002,
+   "utc": "2026-11-12T19:00:00Z",
+   "comp": "CAN27Q",
+   "home": "Ivory Coast",
+   "away": "Gambia",
+   "channels": {
+    "FR": [
+     "beIN Sports 1"
+    ],
+    "CI": [
+     "RTI 1"
+    ]
+   }
+  },
+  {
+   "id": 990003,
+   "utc": "2026-11-12T19:00:00Z",
+   "comp": "CAN27Q",
+   "home": "Cameroon",
+   "away": "Namibia",
+   "channels": {
+    "FR": [
+     "beIN Sports 5"
+    ],
+    "CM": [
+     "CRTV"
+    ]
+   }
+  },
+  {
+   "id": 990004,
+   "utc": "2026-11-12T19:00:00Z",
+   "comp": "CAN27Q",
+   "home": "Senegal",
+   "away": "Sudan",
+   "channels": {
+    "FR": [
+     "beIN Sports 4"
+    ],
+    "SN": [
+     "RTS 1"
+    ]
+   }
+  },
+  {
+   "id": 990005,
+   "utc": "2026-11-13T13:00:00Z",
+   "comp": "CAN27Q",
+   "home": "Comoros",
+   "away": "Congo",
+   "channels": {
+    "FR": [
+     "beIN Sports 1"
+    ]
+   }
+  },
+  {
+   "id": 990006,
+   "utc": "2026-11-13T16:00:00Z",
+   "comp": "CAN27Q",
+   "home": "Tunisia",
+   "away": "Libya",
+   "channels": {
+    "FR": [
+     "beIN Sports 1"
+    ],
+    "TN": [
+     "El Watania 1"
+    ],
+    "MENA": [
+     "beIN Sports"
+    ]
+   }
+  },
+  {
+   "id": 990007,
+   "utc": "2026-11-13T16:00:00Z",
+   "comp": "CAN27Q",
+   "home": "Nigeria",
+   "away": "Tanzania",
+   "channels": {
+    "FR": [
+     "beIN Sports 2"
+    ]
+   }
+  },
+  {
+   "id": 990008,
+   "utc": "2026-11-13T19:00:00Z",
+   "comp": "CAN27Q",
+   "home": "Mali",
+   "away": "Rwanda",
+   "channels": {
+    "FR": [
+     "beIN Sports 5"
+    ]
+   }
+  },
+  {
+   "id": 990009,
+   "utc": "2026-11-13T19:00:00Z",
+   "comp": "CAN27Q",
+   "home": "Egypt",
+   "away": "Malawi",
+   "channels": {
+    "FR": [
+     "beIN Sports 6"
+    ],
+    "MENA": [
+     "beIN Sports"
+    ]
+   }
+  },
+  {
+   "id": 990010,
+   "utc": "2026-11-13T20:00:00Z",
+   "comp": "CAN27Q",
+   "home": "Morocco",
+   "away": "Niger",
+   "channels": {
+    "FR": [
+     "beIN Sports 1"
+    ],
+    "MA": [
+     "Arryadia"
+    ],
+    "MENA": [
+     "beIN Sports"
+    ]
+   }
+  },
+  {
+   "id": 990011,
+   "utc": "2026-11-14T19:00:00Z",
+   "comp": "CAN27Q",
+   "home": "Algeria",
+   "away": "Togo",
+   "channels": {
+    "FR": [
+     "beIN Sports 1"
+    ],
+    "DZ": [
+     "EPTV"
+    ],
+    "MENA": [
+     "beIN Sports"
+    ]
+   }
+  },
+  {
+   "id": 990012,
+   "utc": "2026-11-17T13:00:00Z",
+   "comp": "CAN27Q",
+   "home": "Tanzania",
+   "away": "Nigeria",
+   "channels": {
+    "FR": [
+     "beIN Sports 4"
+    ]
+   }
+  },
+  {
+   "id": 990013,
+   "utc": "2026-11-17T13:00:00Z",
+   "comp": "CAN27Q",
+   "home": "Malawi",
+   "away": "Egypt",
+   "channels": {
+    "FR": [
+     "beIN Sports 1"
+    ],
+    "MENA": [
+     "beIN Sports"
+    ]
+   }
+  },
+  {
+   "id": 990014,
+   "utc": "2026-11-17T16:00:00Z",
+   "comp": "CAN27Q",
+   "home": "Sierra Leone",
+   "away": "DR Congo",
+   "channels": {
+    "FR": [
+     "beIN Sports 5"
+    ]
+   }
+  },
+  {
+   "id": 990015,
+   "utc": "2026-11-17T16:00:00Z",
+   "comp": "CAN27Q",
+   "home": "Gambia",
+   "away": "Ivory Coast",
+   "channels": {
+    "FR": [
+     "beIN Sports 4"
+    ],
+    "CI": [
+     "RTI 1"
+    ]
+   }
+  },
+  {
+   "id": 990016,
+   "utc": "2026-11-17T16:00:00Z",
+   "comp": "CAN27Q",
+   "home": "Libya",
+   "away": "Tunisia",
+   "channels": {
+    "FR": [
+     "beIN Sports 2"
+    ],
+    "TN": [
+     "El Watania 1"
+    ],
+    "MENA": [
+     "beIN Sports"
+    ]
+   }
+  },
+  {
+   "id": 990017,
+   "utc": "2026-11-17T16:00:00Z",
+   "comp": "CAN27Q",
+   "home": "Togo",
+   "away": "Algeria",
+   "channels": {
+    "FR": [
+     "beIN Sports 1"
+    ],
+    "DZ": [
+     "EPTV"
+    ],
+    "MENA": [
+     "beIN Sports"
+    ]
+   }
+  },
+  {
+   "id": 990018,
+   "utc": "2026-11-17T19:00:00Z",
+   "comp": "CAN27Q",
+   "home": "Rwanda",
+   "away": "Mali",
+   "channels": {
+    "FR": [
+     "beIN Sports 5"
+    ]
+   }
+  },
+  {
+   "id": 990019,
+   "utc": "2026-11-17T19:00:00Z",
+   "comp": "CAN27Q",
+   "home": "Congo",
+   "away": "Comoros",
+   "channels": {
+    "FR": [
+     "beIN Sports 4"
+    ]
+   }
+  },
+  {
+   "id": 990020,
+   "utc": "2026-11-17T20:00:00Z",
+   "comp": "CAN27Q",
+   "home": "Niger",
+   "away": "Morocco",
+   "channels": {
+    "FR": [
+     "beIN Sports 1"
+    ],
+    "MA": [
+     "Arryadia"
+    ],
+    "MENA": [
+     "beIN Sports"
+    ]
+   }
+  }
+ ]
+}
