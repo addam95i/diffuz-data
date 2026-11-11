@@ -160,6 +160,40 @@ for (const e of events) {
 }
 for (const id of Object.keys(channelsByEvent)) addMatch(id, null); // diffusés mais absents de la liste du jour
 
+// Ajouts manuels (data/manual.json) : chaînes par défaut d'une compétition, chaînes d'un match précis,
+// et matchs absents de TheSportsDB (ex. éliminatoires CAN), saisis à la main.
+let manual = {};
+try { manual = JSON.parse(await readFile(new URL('data/manual.json', root), 'utf8')); } catch (e) { manual = {}; }
+const pairKey = (h, a) => `${slug(h)}|${slug(a)}`;
+for (const m of matches) {
+  const lid = m.comp.startsWith('L') ? m.comp.slice(1) : '';
+  const def = (manual.leagueChannels || {})[lid];
+  if (def) for (const [code, list] of Object.entries(def)) if (!m.channels[code]) m.channels[code] = [...list];
+  const ov = (manual.matchChannels || {})[pairKey(m.home, m.away)];
+  if (ov) for (const [code, list] of Object.entries(ov)) m.channels[code] = [...list];
+}
+const nowMs = Date.now();
+for (const x of manual.matches || []) {
+  const t = Date.parse(x.utc);
+  if (!(t > nowMs - 2 * 86400000 && t < nowMs + 7 * 86400000)) continue;
+  if (matches.some((m) => pairKey(m.home, m.away) === pairKey(x.home, x.away) && Math.abs(Date.parse(m.utc) - t) < 6 * 3600000)) continue;
+  if (!competitions[x.comp]) {
+    const c = (manual.competitions || {})[x.comp];
+    if (!c) continue;
+    competitions[x.comp] = { name: c.name, area: c.area || '', areaEn: c.areaEn || c.area || '', flag: c.flag || '', channels: {} };
+  }
+  const status = nowMs > t + 2 * 3600000 ? 'FINISHED' : nowMs >= t ? 'IN_PLAY' : 'TIMED';
+  matches.push({ id: Number(x.id), utc: x.utc, status, comp: x.comp, home: x.home, away: x.away, channels: x.channels });
+}
+for (const m of matches) {
+  for (const code of Object.keys(m.channels)) {
+    if (!usedCountries[code]) {
+      const c = Object.values(countryMap).find((y) => y.code === code);
+      if (c) usedCountries[code] = { fr: c.fr, en: c.en, region: c.region };
+    }
+  }
+}
+
 matches.sort((x, y) => x.utc.localeCompare(y.utc));
 
 if (!matches.length) {
