@@ -102,6 +102,16 @@ const areaOf = (country) => {
   return c ? c : null;
 };
 
+// Compétitions internationales, reconnues à leur nom.
+const INTL = [
+  { re: /\buefa\b|\beuro\b|europa|conference league/i, fr: 'Europe', en: 'Europe', flag: 'EU' },
+  { re: /conmebol|libertadores|sudamericana|copa am[eé]rica/i, fr: 'Amérique du Sud', en: 'South America', flag: 'INT' },
+  { re: /concacaf|gold cup/i, fr: 'Amérique du Nord', en: 'North America', flag: 'INT' },
+  { re: /\bcaf\b|africa cup|afcon|coupe d'afrique/i, fr: 'Afrique', en: 'Africa', flag: 'INT' },
+  { re: /\bafc\b|asian/i, fr: 'Asie', en: 'Asia', flag: 'INT' },
+  { re: /\bfifa\b|international|friendl|world cup|nations|olympic|qualif/i, fr: 'International', en: 'International', flag: 'INT' },
+];
+
 const competitions = {};
 const matches = [];
 const seen = new Set();
@@ -120,13 +130,17 @@ function addMatch(id, e) {
   if (!comp) {
     comp = idLeague ? `L${idLeague}` : 'OTHER';
     if (!competitions[comp]) {
+      const name = (e && e.strLeague) || 'Autres matchs';
+      // Compétitions internationales : TheSportsDB y met le pays du premier match (ex. Turquie
+      // pour la Ligue des nations), on affiche donc le drapeau européen ou le globe à la place.
+      const intl = INTL.find((x) => x.re.test(name));
       const land = e ? e.strCountry : '';
-      const a = land ? areaOf(land) : null;
+      const a = !intl && land ? areaOf(land) : null;
       competitions[comp] = {
-        name: (e && e.strLeague) || 'Autres matchs',
-        area: a ? a.fr : land || '',
-        areaEn: a ? a.en : land || '',
-        flag: a && a.code.length === 2 ? a.code : '',
+        name,
+        area: intl ? intl.fr : a ? a.fr : land || '',
+        areaEn: intl ? intl.en : a ? a.en : land || '',
+        flag: intl ? intl.flag : a && a.code.length === 2 ? a.code : '',
         channels: {},
       };
     }
