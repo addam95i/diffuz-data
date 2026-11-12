@@ -1,4 +1,4 @@
-// Robot Diffuz (version Dev) : autres sports que le foot (basket, MMA et boxe).
+// Robot Diffuz (version Dev) : tous les autres sports que le foot.
 // Récupère sur TheSportsDB les événements télévisés des prochains jours, avec les chaînes
 // pays par pays, et écrit public/sports-dev.json (lu seulement par l'appli Diffuz Dev).
 //
@@ -11,9 +11,30 @@ import { mkdir, readFile, writeFile } from 'node:fs/promises';
 const root = new URL('../', import.meta.url);
 const countryMap = JSON.parse(await readFile(new URL('data/countries.json', root), 'utf8')).countries;
 
-// Sports suivis : nom chez TheSportsDB → identifiant dans l'appli.
+// Sports suivis : nom chez TheSportsDB → identifiant dans l'appli (même liste dans data.js de l'appli).
 // « Fighting » regroupe chez TheSportsDB le MMA (UFC, PFL…) et la boxe.
-const SPORTS = { Basketball: 'basketball', Fighting: 'fighting' };
+const SPORTS = {
+  Basketball: 'basketball',
+  Fighting: 'fighting',
+  Tennis: 'tennis',
+  Rugby: 'rugby',
+  Motorsport: 'motorsport',
+  'American Football': 'american-football',
+  'Ice Hockey': 'ice-hockey',
+  Handball: 'handball',
+  Volleyball: 'volleyball',
+  Cycling: 'cycling',
+  Golf: 'golf',
+  Darts: 'darts',
+  Snooker: 'snooker',
+  Baseball: 'baseball',
+  Cricket: 'cricket',
+  'Australian Football': 'australian-football',
+  ESports: 'esports',
+};
+// Sports sans affiche « A contre B » : le nom de l'événement sert de titre (Grand Prix, tournoi, étape…).
+const TITLE_SPORTS = ['fighting', 'motorsport', 'golf', 'cycling'];
+const NAMES_FR = { basketball: 'Basket', fighting: 'Combats', tennis: 'Tennis', rugby: 'Rugby', motorsport: 'Sport auto' };
 // Dans « Fighting », TheSportsDB range aussi le sumo et le catch : on ne garde que MMA et boxe.
 const NOT_FIGHTING = /sumo|wwe|aew|wrestl|njpw|tna|impact|ring of honor/i;
 
@@ -118,12 +139,12 @@ for (const [name, sport] of Object.entries(SPORTS)) {
     const idLeague = String((e && e.idLeague) || (row && row.idLeague) || '');
     const leagueName = clean((e && e.strLeague) || (row && row.strLeague));
     if (sport === 'fighting' && NOT_FIGHTING.test(leagueName)) continue;
-    const comp = idLeague ? `${sport === 'basketball' ? 'B' : 'F'}${idLeague}` : `${sport}-other`;
+    const comp = `${sport}-${idLeague || 'other'}`;
     if (!competitions[comp]) {
       const land = e ? e.strCountry : '';
       const a = land ? countryMap[slug(land)] : null;
       competitions[comp] = {
-        name: clean((e && e.strLeague) || (row && row.strLeague)) || (sport === 'basketball' ? 'Basket' : 'Combats'),
+        name: leagueName || NAMES_FR[sport] || name,
         area: a ? a.fr : land || '',
         areaEn: a ? a.en : land || '',
         flag: a && a.code.length === 2 ? a.code : '',
@@ -135,10 +156,11 @@ for (const [name, sport] of Object.entries(SPORTS)) {
     const title = clean((e && e.strEvent) || (row && row.strEvent));
     let home = clean(e && e.strHomeTeam);
     let away = clean(e && e.strAwayTeam);
-    if (!home && !away && sport === 'basketball') {
+    if (!home && !away && !TITLE_SPORTS.includes(sport)) {
       const p = title.split(/\s+vs\.?\s+/i);
       if (p.length === 2) [home, away] = p;
     }
+    if (!away) home = '';
     const m = {
       id: Number(id),
       sport,
@@ -149,8 +171,8 @@ for (const [name, sport] of Object.entries(SPORTS)) {
       away: home ? away : '',
       channels: channelsByEvent[id],
     };
-    // Combats : le nom de la soirée (« UFC 322 : X vs Y ») sert de titre.
-    if (sport === 'fighting' && title) m.title = title;
+    // Combats, Grands Prix, tournois : le nom de l'événement sert de titre.
+    if ((TITLE_SPORTS.includes(sport) || !m.away) && title) m.title = title;
     matches.push(m);
     seen.add(id);
   }
@@ -165,8 +187,8 @@ if (!matches.length) {
 
 const count = {};
 matches.forEach((m) => { count[m.comp] = (count[m.comp] || 0) + 1; });
-// Les grandes ligues d'abord (NBA, EuroLigue, UFC), puis les autres par nombre d'événements.
-const PRIORITY = ['B4387', 'B4546', 'F4443'];
+// Les grandes ligues d'abord (NBA, EuroLigue, UFC, F1, Top 14, Six Nations), puis les autres par nombre d'événements.
+const PRIORITY = ['basketball-4387', 'basketball-4546', 'fighting-4443', 'motorsport-4370', 'rugby-4430', 'rugby-4714'];
 const rank = (c) => (PRIORITY.includes(c) ? PRIORITY.indexOf(c) : 99);
 const order = Object.keys(competitions).filter((c) => count[c])
   .sort((x, y) => rank(x) - rank(y) || count[y] - count[x] || competitions[x].name.localeCompare(competitions[y].name));
